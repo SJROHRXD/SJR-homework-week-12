@@ -15,9 +15,10 @@ class employeeDB {
 
     // ADD DEPT //
     addDepartment(department) {
-        return this.connection.promise().query("INSERT INTO department SET ?", department);
-        }
-
+        return this.connection.promise().query(
+            "INSERT INTO department SET ?", 
+            department
+        );
     }
 
     // DELETE DEPT? //
@@ -29,12 +30,17 @@ class employeeDB {
         return this.connection.promise().query(
             "SELECT role.id, role.title, department.name AS department, role.salary FROM role LEFT JOIN department on role.department_id = department.id;"
         );
+
     }
 
     // ADD ROLE //
     addRole(role) {
-        return this.connection.promise().query("INSERT INTO role SET ?", role);
+        return this.connection.promise().query(
+            "INSERT INTO role SET ?", 
+            role
+        );
     }
+
     // DELETE ROLE? //
     // BY NAME //
     // BY ID
@@ -59,8 +65,12 @@ class employeeDB {
 
     // ADD E //
     addEmployee(employee) {
-        return this.connection.promise().query("INSERT INTO employee SET ?", employee);
+        return this.connection.promise().query(
+            "INSERT INTO employee SET ?", 
+            employee
+        );
     }
+
     // DELETE E ? //
 
     // SHOW ALL MANAGERS //
@@ -71,5 +81,6 @@ class employeeDB {
             employeeId
         );
     }
+};
 
 export default new employeeDB(connection);
