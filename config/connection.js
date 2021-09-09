@@ -26,7 +26,7 @@ const db = mysql.createConnection(
 
 // LISTEN //
 app.listen(PORT, () => {
-  console.log(`Server LIVE on port: ${PORT}; ${moment().format("MMMM Do YYYY, h:mm:ss A")}!`);
+  console.log(`Server LIVE on port: ${PORT}; ${moment().format("MMMM Do YYYY, h:mm:ss A")} 🌷!`);
 });
 
 module.exports = connection;
