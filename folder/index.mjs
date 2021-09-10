@@ -1,7 +1,92 @@
-import { allEmployees, allRoles, allDepartments, addRole, addDepartment, addEmployee, updateEmployeeRole as _updateEmployeeRole } from "./db";
+const { prompt } = require("inquirer");
+require("console.table");
+import { allEmployees, allRoles, allDepartments, addRole, addDepartment, addEmployee, updateEmployeeRole as _updateEmployeeRole } from "./db/schema";
+const db = require("./db");
+
+// INITIALIZE //
+init();
+function init() {
+    appPrompts();
+}
+
+function appPrompts() {
+    prompt([
+        {
+            // QUESTIONS //
+            type: "list",
+            name: "choice",
+            message: "Please, make a selection:",
+            choices: [
+                {
+                    name: "VIEW DEPARTMENTS",
+                    value: "VIEW_DEPARTMENTS"
+                },
+                {
+                    name: "VIEW ROLES",
+                    value: "VIEW_ROLES"
+                },
+                {
+                    name: "VIEW EMPLOYEES",
+                    value: "VIEW_EMPLOYEES"
+                },
+
+                {
+                    name: "ADD DEPARTMENT",
+                    value: "ADD_DEPARTMENT"
+                },
+                {
+                    name: "ADD ROLE",
+                    value: "ADD_ROLE"
+                },
+                {
+                    name: "ADD EMPLOYEE",
+                    value: "ADD_EMPLOYEE"
+                },
+                {
+                    name: "UPDATE EMPLOYEE ROLE",
+                    value: "UPDATE_EMPLOYEE_ROLE"
+                },
+                {
+                    name: "QUIT APPLICATION",
+                    value: "QUIT"
+                }
+            ]
+        }
+
+    ]).then(res => {
+        let choice = res.choice;
+        // CALL FUNCTIONS //
+        switch (choice) {
+            case "VIEW_DEPARTMENTS":
+                viewAllDepartments();
+                break;
+            case "VIEW_ROLES":
+                viewAllRoles();
+                break;
+            case "VIEW_EMPLOYEES":
+                viewAllEmployees();
+                break;
+            case "ADD_DEPARTMENT":
+                createDepartment();
+                break;
+            case "ADD_ROLE":
+                createRole();
+                break;
+            case "ADD_EMPLOYEE":
+                createEmployee();
+                break;
+            case "UPDATE_EMPLOYEE_ROLE":
+                updateEmployeeRole();
+                break;
+            default:
+                quit();
+        }
+    }
+    )
+}
 
 // VIEW ALL EMPLOYEES ✨ //
-export function viewAllEmployees() {
+function viewAllEmployees() {
     allEmployees()
         .then(([rows]) => {
             let employees = rows;
@@ -12,7 +97,7 @@ export function viewAllEmployees() {
 }
 
 // VIEW ALL ROLES ✨ //
-export function viewAllRoles() {
+function viewAllRoles() {
     allRoles()
         .then(([rows]) => {
             let roles = rows;
@@ -23,7 +108,7 @@ export function viewAllRoles() {
 }
 
 // VIEW ALL DEPARTMENTS ✨ //
-export function viewAllDepartments() {
+function viewAllDepartments() {
     allDepartments()
         .then(([rows]) => {
             let departments = rows;
@@ -34,7 +119,7 @@ export function viewAllDepartments() {
 }
 
 // UPDATE ROLE 🌿 //
-export function updateEmployeeRole() {
+function updateEmployeeRole() {
     allEmployees()
         .then(([rows]) => {
             let employees = rows;
@@ -78,7 +163,7 @@ export function updateEmployeeRole() {
 }
 
 // ADD ROLE 🌿 //
-export function createRole() {
+function createRole() {
     allDepartments()
         .then(([rows]) => {
             let departments = rows;
@@ -113,7 +198,7 @@ export function createRole() {
 
 
 // ADD DEPARTMENT 🌿 //
-export function createDepartment() {
+function createDepartment() {
     prompt([
         {
             name: "name",
@@ -129,7 +214,7 @@ export function createDepartment() {
 }
 
 // ADD EMPLOYEE 🌿 //
-export function createEmployee() {
+function createEmployee() {
     prompt([
         {
             name: "first_name",
@@ -197,8 +282,8 @@ export function createEmployee() {
         })
 }
 
-// export function quit() {
-//     process.exit();
-// }
-
-// module.exports = functions;
+// module.exports = functions();
+// EXIT //
+function quit() {
+    process.exit();
+}

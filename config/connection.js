@@ -1,32 +1,29 @@
-import express from "express";
-import routes from "./routes/bigRoutes";
-import mysql from "mysql2";
-import moment from "moment";
+// CONNECTION REQUIRE STACK //
+const mysql = require("mysql");
+const express = require("express");
 
-// const connection = require("./config/connection");
-
+const PORT = process.env.PORT || 3069;
 const app = express();
-const PORT = process.env.PORT || 3001;
 
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(routes);
 
+app.use((req, res) => {
+  res.status(404).end();
+});
 
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
 
 // CONNECT TO DB //
-const db = mysql.createConnection(
+const connection = mysql.createConnection(
     {
       host: "localhost",
       user: "root",
-      password: "",
-      database: "",
+      password: "SQL1989!!bigly",
+      database: "employees",
     },
 );
-
-// LISTEN //
-app.listen(PORT, () => {
-  console.log(`Server LIVE on port: ${PORT}; ${moment().format("MMMM Do YYYY, h:mm:ss A")} 🌷!`);
-});
 
 module.exports = connection;
