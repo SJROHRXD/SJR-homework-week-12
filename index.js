@@ -106,16 +106,16 @@ function viewAllRoles() {
         .then(() => appPrompts());
 }
 
-// // VIEW ALL DEPARTMENTS ✨ //
-// function viewAllDepartments() {
-//     db.allDepartments()
-//         .then((rows) => {
-//             let departments = rows;
-//             console.log("\n");
-//             console.table(departments);
-//         })
-//         .then(() => appPrompts());
-// }
+// VIEW ALL DEPARTMENTS ✨ //
+function viewAllDepartments() {
+    db.allDepartments()
+        .then((rows) => {
+            let departments = rows;
+            console.log("\n");
+            console.table(departments);
+        })
+        .then(() => appPrompts());
+}
 
 // // UPDATE ROLE 🌿 //
 // function updateEmployeeRole() {
@@ -212,74 +212,72 @@ function viewAllRoles() {
 //         })
 // }
 
-// // ADD EMPLOYEE 🌿 //
-// function createEmployee() {
-//     prompt([
-//         {
-//             name: "first_name",
-//             message: "Enter Employee's first name."
-//         },
-//         {
-//             name: "last_name",
-//             message: "Enter Employee's last name."
-//         }
-//     ])
-//         .then(res => {
-//             let firstName = res.first_name;
-//             let lastName = res.last_name;
-
-//             db.allRoles()
-//                 .then(([rows]) => {
-//                     let roles = rows;
-//                     const roleChoices = roles.map(({ id, title }) => ({
-//                         name: title,
-//                         value: id
-//                     }));
-
-//                     prompt({
-//                         type: "list",
-//                         name: "roleId",
-//                         message: "Enter Employee's Role.",
-//                         choices: roleChoices
-//                     })
-//                         .then(res => {
-//                             let roleId = res.roleId;
-
-//                             db.allEmployees()
-//                                 .then(([rows]) => {
-//                                     let employees = rows;
-//                                     const managerChoices = employees.map(({ id, first_name, last_name }) => ({
-//                                         name: `${first_name} ${last_name}`,
-//                                         value: id
-//                                     }));
-
-//                                     managerChoices.unshift({ name: "None", value: null });
-
-//                                     prompt({
-//                                         type: "list",
-//                                         name: "managerId",
-//                                         message: "Enter Employee's Manager.",
-//                                         choices: managerChoices
-//                                     })
-//                                         .then(res => {
-//                                             let employee = {
-//                                                 manager_id: res.managerId,
-//                                                 role_id: roleId,
-//                                                 first_name: firstName,
-//                                                 last_name: lastName
-//                                             }
-
-//                                             db.addEmployee(employee);
-//                                         })
-//                                         .then(() => console.log(
-//                                             `${firstName} ${lastName} has been added to DB!`
-//                                         ))
-//                                         .then(() => appPrompts())
-//                                 })
-//                         })
-//                 })
-//         })
-// }
+// ADD EMPLOYEE 🌿 //
+function createEmployee() {
+    prompt([
+      {
+        name: "first_name",
+        message: "Enter Employee's first name.",
+      },
+      {
+        name: "last_name",
+        message: "Enter Employee's last name.",
+      },
+    ]).then((res) => {
+      let firstName = res.first_name;
+      let lastName = res.last_name;
+      // TODO remove [ ]
+      db.allRoles().then((rows) => {
+        let roles = rows;
+        const roleChoices = roles.map(({ id, title }) => ({
+          name: title,
+          value: id,
+        }));
+  
+        prompt({
+          type: "list",
+          name: "roleId",
+          message: "Enter Employee's Role.",
+          choices: roleChoices,
+        }).then((res) => {
+          let roleId = res.roleId;
+  
+          db.allEmployees().then((rows) => {
+            let employees = rows;
+            const managerChoices = employees.map(
+              ({ id, first_name, last_name }) => ({
+                name: `${first_name} ${last_name}`,
+                value: id,
+              })
+            );
+  
+            managerChoices.unshift({ name: "None", value: null });
+  
+            prompt({
+              type: "list",
+              name: "managerId",
+              message: "Enter Employee's Manager.",
+              choices: managerChoices,
+            })
+              .then((res) => {
+                let employee = {
+                  manager_id: res.managerId,
+                  role_id: roleId,
+                  first_name: firstName,
+                  last_name: lastName,
+                };
+  
+                db.addEmployee(employee);
+              })
+              .then(() =>
+                console.log(`${firstName} ${lastName} has been added to DB!`)
+              )
+              .then(() => appPrompts());
+          });
+        });
+      });
+    });
+  }
 
 
 

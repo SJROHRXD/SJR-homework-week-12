@@ -19,10 +19,19 @@ class employeeDB {
           });
     }
 
-//     // ADD EMPLOYEE //
-//     async addEmployee(employee) {
-//         return this.connection.promise().query("INSERT INTO employee SET ?", employee);
-//     }
+    // ADD EMPLOYEE //
+    async addEmployee(employee) {
+        return new Promise((resolve, reject) => {
+          this.connection.query(
+            "INSERT INTO employee SET ?",
+            employee,
+            function (err, results) {
+              resolve(results);
+              reject(err);
+            }
+          );
+        });
+      }
 
 //     // UPDATE EMPLOYEE ROLE //
 //     updateEmployeeRole(employeeId, roleId) {
@@ -59,12 +68,18 @@ class employeeDB {
 //         return this.connection.promise().query("INSERT INTO role SET ?", role);
 //     }
 
-//     // SHOW DEPARTMENTS //
-//     allDepartments() {
-//         return this.connection.promise().query(
-//             "SELECT department.id, department.name FROM department;"
-//         );
-//     }
+    // SHOW DEPARTMENTS //
+    async allDepartments() {
+        return new Promise((resolve, reject) => {
+          this.connection.query(
+            "SELECT department.name, department.id FROM department;",
+            function (err, results) {
+              resolve(results);
+              reject(err);
+            }
+          );
+        });
+      }
 
 //     // ADD A DEPARTMENT //
 //     addDepartment(department) {
