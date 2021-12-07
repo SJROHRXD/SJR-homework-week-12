@@ -95,21 +95,21 @@ function viewAllEmployees() {
         .then(() => appPrompts());
 }
 
-// // VIEW ALL ROLES ✨ //
-// function viewAllRoles() {
-//     db.allRoles()
-//         .then(([rows]) => {
-//             let roles = rows;
-//             console.log("\n");
-//             console.table(roles);
-//         })
-//         .then(() => appPrompts());
-// }
+// VIEW ALL ROLES ✨ //
+function viewAllRoles() {
+    db.allRoles()
+        .then((rows) => {
+            let roles = rows;
+            console.log("\n");
+            console.table(roles);
+        })
+        .then(() => appPrompts());
+}
 
 // // VIEW ALL DEPARTMENTS ✨ //
 // function viewAllDepartments() {
 //     db.allDepartments()
-//         .then(([rows]) => {
+//         .then((rows) => {
 //             let departments = rows;
 //             console.log("\n");
 //             console.table(departments);
