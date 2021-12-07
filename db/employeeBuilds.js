@@ -33,24 +33,36 @@ class employeeDB {
         });
       }
 
-//     // UPDATE EMPLOYEE ROLE //
-//     updateEmployeeRole(employeeId, roleId) {
-//         return this.connection.promise().query(
-//             "UPDATE employee SET role_id = ? WHERE id = ?",
-//             [roleId, employeeId]
-//         );
-//     }
+// UPDATE EMPLOYEE ROLE //
+async updateEmployeeRole(employeeId, roleId) {
+    return new Promise((resolve, reject) => {
+      this.connection.query(
+        "UPDATE employee SET role_id = ? WHERE id = ?",
+        [roleId, employeeId],
+        function (err, results) {
+          resolve(results);
+          reject(err);
+        }
+      );
+    });
+  }
 
 
-//     // SHOW MANAGERS //
-//     allManagers(employeeId) {
-//         return this.connection.promise().query(
-//             "SELECT id, first_name, last_name FROM employee WHERE id != ?",
-//             employeeId
-//         );
-//     }
+// SHOW MANAGERS //
+async allManagers(employeeId) {
+    return new Promise((resolve, reject) => {
+      this.connection.query(
+        "SELECT id, first_name, last_name FROM employee WHERE id != ?",
+        employeeId,
+        function (err, results) {
+          resolve(results);
+          reject(err);
+        }
+      );
+    });
+  }
 
-    // SHOW ROLES //
+// SHOW ROLES //
     async allRoles() {
         return new Promise((resolve, reject) => {
           this.connection.query(
@@ -63,10 +75,35 @@ class employeeDB {
         });
       }
 
-//     // CREATE ROLE //
-//     addRole(role) {
-//         return this.connection.promise().query("INSERT INTO role SET ?", role);
-//     }
+// CONVERT DEPT NAME TO ID //
+  async getDeptID(name) {
+    return new Promise((resolve, reject) => {
+      console.log("name " + name);
+      this.connection.query(
+        "SELECT id FROM department WHERE name = ?;",
+        name,
+        function (err, results) {
+          resolve(results);
+          reject(err);
+        }
+      );
+    });
+  }
+
+// CREATE ROLE //
+async addRole(role) {
+    return new Promise((resolve, reject) => {
+      this.connection.query(
+        "INSERT INTO role SET ?",
+        role,
+        function (err, results) {
+          resolve(results);
+          reject(err);
+        }
+      );
+    });
+    // return this.connection.promise().query("INSERT INTO role SET ?", role);
+  }
 
     // SHOW DEPARTMENTS //
     async allDepartments() {
@@ -81,39 +118,20 @@ class employeeDB {
         });
       }
 
-//     // ADD A DEPARTMENT //
-//     addDepartment(department) {
-//         return this.connection.promise().query("INSERT INTO department SET ?", department);
-//     }
-// }
-
-// // module.exports = new employeeDB(connection);
-
-
-//////
-// const mysql = require( 'mysql' );
-// class Database {
-//     constructor( config ) {
-//         this.connection = mysql.createConnection( config );
-//     }
-//     query( sql, args ) {
-//         return new Promise( ( resolve, reject ) => {
-//             this.connection.query( sql, args, ( err, rows ) => {
-//                 if ( err )
-//                     return reject( err );
-//                 resolve( rows );
-//             } );
-//         } );
-//     }
-//     close() {
-//         return new Promise( ( resolve, reject ) => {
-//             this.connection.end( err => {
-//                 if ( err )
-//                     return reject( err );
-//                 resolve();
-//             } );
-//         } );
-//     }
+// ADD A DEPARTMENT //
+async addDepartment(department) {
+    return new Promise((resolve, reject) => {
+      this.connection.query(
+        "INSERT INTO department SET ?",
+        department,
+        function (err, results) {
+          resolve(results);
+          reject(err);
+        }
+      );
+    });
+  }
 }
+
 
 module.exports = new employeeDB(connection);

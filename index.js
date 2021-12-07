@@ -117,100 +117,101 @@ function viewAllDepartments() {
         .then(() => appPrompts());
 }
 
-// // UPDATE ROLE 🌿 //
-// function updateEmployeeRole() {
-//     db.allEmployees()
-//         .then(([rows]) => {
-//             let employees = rows;
-//             const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
-//                 name: `${first_name} ${last_name}`,
-//                 value: id
-//             }));
+// UPDATE ROLE 🌿 //
+function updateEmployeeRole() {
+    db.allEmployees().then((rows) => {
+      let employees = rows;
+      const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
+        name: `${first_name} ${last_name}`,
+        value: id,
+      }));
+  
+      prompt([
+        {
+          type: "list",
+          name: "employeeId",
+          message: "Select Employee to update.",
+          choices: employeeChoices,
+        },
+      ]).then((res) => {
+        let employeeId = res.employeeId;
+        db.allRoles().then((rows) => {
+          let roles = rows;
+          const roleChoices = roles.map(({ id, title }) => ({
+            name: title,
+            value: id,
+          }));
+  
+          prompt([
+            {
+              type: "list",
+              name: "roleId",
+              message: "Enter the role of the new Employee.",
+              choices: roleChoices,
+            },
+          ])
+            .then((res) => db.updateEmployeeRole(employeeId, res.roleId))
+            .then(() => console.log("Updated Employee Role! 🌷"))
+            .then(() => appPrompts());
+        });
+      });
+    });
+  }
 
-//             prompt([
-//                 {
-//                     type: "list",
-//                     name: "employeeId",
-//                     message: "Select Employee to update.",
-//                     choices: employeeChoices
-//                 }
-//             ])
-//                 .then(res => {
-//                     let employeeId = res.employeeId;
-//                     allRoles()
-//                         .then(([rows]) => {
-//                             let roles = rows;
-//                             const roleChoices = roles.map(({ id, title }) => ({
-//                                 name: title,
-//                                 value: id
-//                             }));
-
-//                             prompt([
-//                                 {
-//                                     type: "list",
-//                                     name: "roleId",
-//                                     message: "Enter the role of the new Employee.",
-//                                     choices: roleChoices
-//                                 }
-//                             ])
-//                                 .then(res => db.updateEmployeeRole(employeeId, res.roleId))
-//                                 .then(() => console.log("Updated Employee Role! 🌷"))
-//                                 .then(() => appPrompts())
-//                         });
-//                 });
-//         })
-// }
-
-// // ADD ROLE 🌿 //
-// function createRole() {
-//     db.allDepartments()
-//         .then(([rows]) => {
-//             let departments = rows;
-//             const departmentChoices = departments.map(({ id, name }) => ({
-//                 name: name,
-//                 value: id
-//             }));
-
-//             prompt([
-//                 {
-//                     name: "title",
-//                     message: "Enter Role."
-//                 },
-//                 {
-//                     name: "salary",
-//                     message: "Enter Salary Rate."
-//                 },
-//                 {
-//                     type: "list",
-//                     name: "department_id",
-//                     message: "Enter Department to nest Role under.",
-//                     choices: departmentChoices
-//                 }
-//             ])
-//                 .then(role => {
-//                     addRole(role)
-//                         .then(() => console.log(`${role.title} has been added to DB! 🌷`))
-//                         .then(() => appPrompts())
-//                 })
-//         })
-// }
+// ADD ROLE 🌿 //
+function createRole() {
+    db.allDepartments().then((rows) => {
+      let departments = rows;
+      console.log("\n");
+      //console.table(departments);
+  
+      prompt([
+        {
+          name: "title",
+          message: "Enter Role.",
+        },
+        {
+          name: "salary",
+          message: "Enter Salary Rate.",
+        },
+        {
+          type: "list",
+          name: "department_id",
+          message: "Enter Department to nest Role under.",
+          choices: departments,
+        },
+      ]).then((role) => {
+        //dept_name = department_id;
+        console.log(role.title);
+        console.log(role.salary);
+        console.log(role.department_name);
+        db.getDeptID(role.department_id).then((deptID) => {
+          // set dept id to the first match
+          role.department_id = deptID[0].id;
+          db.addRole(role).then((result) => {
+            console.log(result);
+            appPrompts();
+          });
+        });
+      });
+    });
+  }
 
 
-// // ADD DEPARTMENT 🌿 //
-// function createDepartment() {
-//     prompt([
-//         {
-//             name: "name",
-//             message: "Enter Department name."
-//         }
-//     ])
-//         .then(res => {
-//             let name = res;
-//             db.addDepartment(name)
-//                 .then(() => console.log(`${name.name} has been added to DB! 🌷`))
-//                 .then(() => appPrompts())
-//         })
-// }
+// ADD DEPARTMENT 🌿 //
+function createDepartment() {
+    prompt([
+      {
+        name: "name",
+        message: "Enter Department name.",
+      },
+    ]).then((res) => {
+      let name = res;
+      db.addDepartment(name)
+        .then(() => console.log(`${name.name} has been added to DB! 🌷`))
+        .then(() => appPrompts());
+    });
+  }
 
 // ADD EMPLOYEE 🌿 //
 function createEmployee() {
@@ -280,8 +281,6 @@ function createEmployee() {
   }
 
 
-
-// module.exports = functions();
 // EXIT //
 function quit() {
     process.exit();
