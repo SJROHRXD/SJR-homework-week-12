@@ -2,7 +2,7 @@
 const mysql = require("mysql");
 const express = require("express");
 
-const PORT = process.env.PORT || 3069;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
