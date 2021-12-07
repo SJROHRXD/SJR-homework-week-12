@@ -56,27 +56,27 @@ function appPrompts() {
         let choice = res.choice;
         // CALL FUNCTIONS //
         switch (choice) {
-            // case "VIEW_DEPARTMENTS":
-            //     viewAllDepartments();
-            //     break;
-            // case "VIEW_ROLES":
-            //     viewAllRoles();
-            //     break;
+            case "VIEW_DEPARTMENTS":
+                viewAllDepartments();
+                break;
+            case "VIEW_ROLES":
+                viewAllRoles();
+                break;
             case "VIEW_EMPLOYEES":
                 viewAllEmployees();
                 break;
-            // case "ADD_DEPARTMENT":
-            //     createDepartment();
-            //     break;
-            // case "ADD_ROLE":
-            //     createRole();
-            //     break;
-            // case "ADD_EMPLOYEE":
-            //     createEmployee();
-            //     break;
-            // case "UPDATE_EMPLOYEE_ROLE":
-            //     updateEmployeeRole();
-            //     break;
+            case "ADD_DEPARTMENT":
+                createDepartment();
+                break;
+            case "ADD_ROLE":
+                createRole();
+                break;
+            case "ADD_EMPLOYEE":
+                createEmployee();
+                break;
+            case "UPDATE_EMPLOYEE_ROLE":
+                updateEmployeeRole();
+                break;
             default:
                 quit();
         }
