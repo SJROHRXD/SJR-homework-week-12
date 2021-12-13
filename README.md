@@ -7,7 +7,7 @@
 
 ## Video Demo 🌷
 
-[Workout Tracker - SJROHRXD](https://youtu.be/K2jrmN7c2Qs)
+[Employee Tracker - SJROHRXD](https://youtu.be/K2jrmN7c2Qs)
 
 
 ## Table of Contents ##
